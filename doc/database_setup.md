@@ -95,8 +95,8 @@ Name:           localhost
 Class:          local
 Transport:      --
 Access:         --
-UserID:         99
-Group ID:       99
+UserID:         65534
+Group ID:       65534
 Restrictions:   --
 [root@pobox dovecot]# postdove show domain localhost.localdomain
 Name:           localhost.localdomain
@@ -107,7 +107,7 @@ UserID:         --
 Group ID:       --
 Restrictions:   --
 ```
-Notice the `99` for the `UserID` and `Group ID` for `localhost`.
+Notice the `65534` for the `UserID` and `Group ID` for `localhost`.
 This is the system fallback default for users.
 See [Postdove Administration](admin.md) for more information.
 

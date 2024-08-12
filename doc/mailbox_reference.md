@@ -56,14 +56,14 @@ Usage:
 
 Flags:
   -e, --enable             Enable this mailbox for access
-  -g, --gid int            User ID for this mailbox (default 99)
+  -g, --gid int            User ID for this mailbox (default 65534)
   -h, --help               help for mailbox
   -m, --mail-home string   Home directory for mail
   -E, --no-enable          Enable this mailbox for access
   -p, --password string    Account password
   -q, --quota string       Storage quota
   -t, --type string        Password encoding type (default "PLAIN")
-  -u, --uid int            User ID for this mailbox (default 99)
+  -u, --uid int            User ID for this mailbox (default 65534)
 
 Global Flags:
   -d, --dbfile string   Sqlite3 database file (default "/etc/postfix/private/postdove.sqlite")
@@ -171,7 +171,7 @@ Usage:
 
 Flags:
   -e, --enable             Enable this mailbox for access (default true)
-  -g, --gid int            Group ID for this mailbox (default 99)
+  -g, --gid int            Group ID for this mailbox (default 65534)
   -h, --help               help for mailbox
   -m, --mail-home string   Home directory for mail
   -E, --no-enable          Enable this mailbox for access
@@ -182,7 +182,7 @@ Flags:
   -p, --password string    Account password
   -q, --quota string       Storage quota
   -t, --type string        Password encoding type (default "PLAIN")
-  -u, --uid int            User ID for this mailbox (default 99)
+  -u, --uid int            User ID for this mailbox (default 65534)
 
 Global Flags:
   -d, --dbfile string   Sqlite3 database file (default "/etc/postfix/private/postdove.sqlite")

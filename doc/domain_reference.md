@@ -37,7 +37,7 @@ There is also the case where the domains uid and/or gid are not set in which cas
 uid and gid properties of `localhost` are used.
 This means that in an initial configuration not only does the `vmailbox` domain have to be
 added, the `localhost` domain needs to be edited to set the uid/gid for the fallback case.
-The default values for `localhost` are set by the embedded domains file to `99`, the user
+The default values for `localhost` are set by the embedded domains file to `65534`, the user
 and group of `nobody` on most Linux systems.
 
 ## Add
@@ -54,11 +54,11 @@ Usage:
 
 Flags:
   -c, --class string       Domain class (internet, local, relay, virtual, vmailbox) for this domain
-  -g, --gid int            Virtual group id for this domain (default 99)
+  -g, --gid int            Virtual group id for this domain (default 65534)
   -h, --help               help for domain
   -r, --rclass string      Restriction class for this domain
   -t, --transport string   Transport to use for this domain
-  -u, --uid int            Virtual user id for this domain (default 99)
+  -u, --uid int            Virtual user id for this domain (default 65534)
 
 Global Flags:
   -d, --dbfile string   Sqlite3 database file (default "/etc/postfix/private/postdove.sqlite")
@@ -136,7 +136,7 @@ Usage:
 
 Flags:
   -c, --class string       Domain class (internet, local, relay, virtual, vmailbox) for this domain
-  -g, --gid int            Virtual group id for this domain (default 99)
+  -g, --gid int            Virtual group id for this domain (default 65534)
   -h, --help               help for domain
   -G, --no-gid             Clear virtual group id for this domain
   -R, --no-rclass          Clear the restriction class for this domain
@@ -144,7 +144,7 @@ Flags:
   -U, --no-uid             Clear virtual uid value for this domain
   -r, --rclass string      Restriction class for this domain
   -t, --transport string   Transport to use for this domain
-  -u, --uid int            Virtual user id for this domain (default 99)
+  -u, --uid int            Virtual user id for this domain (default 65534)
 
 Global Flags:
   -d, --dbfile string   Sqlite3 database file (default "/etc/postfix/private/postdove.sqlite")

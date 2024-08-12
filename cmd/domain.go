@@ -101,9 +101,9 @@ func init() {
 	addCmd.AddCommand(addDomain)
 	addDomain.Flags().StringVarP(&dClass, "class", "c", "",
 		"Domain class (internet, local, relay, virtual, vmailbox) for this domain")
-	addDomain.Flags().Int64VarP(&vUid, "uid", "u", 99, // nobody user (at least on RH/Fedora)
+	addDomain.Flags().Int64VarP(&vUid, "uid", "u", 65534, // nobody user for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Virtual user id for this domain")
-	addDomain.Flags().Int64VarP(&vGid, "gid", "g", 99, // nobody group (at least on RH/Fedora)
+	addDomain.Flags().Int64VarP(&vGid, "gid", "g", 65534, // nobody group for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Virtual group id for this domain")
 	addDomain.Flags().StringVarP(&rClass, "rclass", "r", "",
 		"Restriction class for this domain")
@@ -113,11 +113,11 @@ func init() {
 	editCmd.AddCommand(editDomain)
 	editDomain.Flags().StringVarP(&dClass, "class", "c", "",
 		"Domain class (internet, local, relay, virtual, vmailbox) for this domain")
-	editDomain.Flags().Int64VarP(&vUid, "uid", "u", 99, // nobody user (at least on RH/Fedora)
+	editDomain.Flags().Int64VarP(&vUid, "uid", "u", 65534, // nobody user for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Virtual user id for this domain")
 	editDomain.Flags().BoolVarP(&noVUid, "no-uid", "U", false,
 		"Clear virtual uid value for this domain")
-	editDomain.Flags().Int64VarP(&vGid, "gid", "g", 99, // nobody group (at least on RH/Fedora)
+	editDomain.Flags().Int64VarP(&vGid, "gid", "g", 65534, // nobody group for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Virtual group id for this domain")
 	editDomain.Flags().BoolVarP(&noVGid, "no-gid", "G", false,
 		"Clear virtual group id for this domain")

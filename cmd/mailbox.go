@@ -107,9 +107,9 @@ func init() {
 		"Password encoding type")
 	addMailbox.Flags().StringVarP(&password, "password", "p", "",
 		"Account password")
-	addMailbox.Flags().Int64VarP(&uid, "uid", "u", 99, // nobody user
+	addMailbox.Flags().Int64VarP(&uid, "uid", "u", 65534, // nobody user for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"User ID for this mailbox")
-	addMailbox.Flags().Int64VarP(&gid, "gid", "g", 99, // nobody group
+	addMailbox.Flags().Int64VarP(&gid, "gid", "g", 65534, // nobody group for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"User ID for this mailbox")
 	addMailbox.Flags().StringVarP(&home, "mail-home", "m", "",
 		"Home directory for mail")
@@ -127,13 +127,13 @@ func init() {
 		"Account password")
 	editMailbox.Flags().BoolVarP(&noPassword, "no-password", "P", false,
 		"Clear Account password")
-	editMailbox.Flags().Int64VarP(&uid, "uid", "u", 99, // nobody user
+	editMailbox.Flags().Int64VarP(&uid, "uid", "u", 65534, // nobody user for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"User ID for this mailbox")
-	editMailbox.Flags().BoolVarP(&noUid, "no-uid", "U", false, // nobody user
+	editMailbox.Flags().BoolVarP(&noUid, "no-uid", "U", false, // nobody user for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Clear User ID for this mailbox")
-	editMailbox.Flags().Int64VarP(&gid, "gid", "g", 99, // nobody group
+	editMailbox.Flags().Int64VarP(&gid, "gid", "g", 65534, // nobody group for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Group ID for this mailbox")
-	editMailbox.Flags().BoolVarP(&noGid, "no-gid", "G", false, // nobody group
+	editMailbox.Flags().BoolVarP(&noGid, "no-gid", "G", false, // nobody group for FreeBSD and Other BSDs. Updated By Ulas SAYGIN
 		"Clear Group ID for this mailbox")
 	editMailbox.Flags().StringVarP(&home, "mail-home", "m", "",
 		"Home directory for mail")

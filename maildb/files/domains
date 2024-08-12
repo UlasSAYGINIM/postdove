@@ -3,6 +3,10 @@
 # to change for a local environment, edit 'localhost'
 # We choose 99 here because it is 'nobody' on Fedora and many other Linux distros
 
-localhost	class=local, vuid=99, vgid=99
+# Ulas SAYGIN Update
+# We choose 65534 here because it is 'nobody' on FreeBSD and many other UNIX OSes, we do not have distros.
+# We can use this HardenedBSD, DragonflyBSD, NetBSD, OpenBSD, and OtherBSDs.
+
+localhost	class=local, vuid=65534, vgid=65534
 localhost.localdomain class=local
 
