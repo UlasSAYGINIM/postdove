@@ -219,6 +219,25 @@ func domainAdd(cmd *cobra.Command, args []string) error {
 		err error
 	)
 
+	// vmailbox class için FreeBSD sistem kullanıcısı oluştur.
+	// Rollback planına göre bu işlem DB yazımından ÖNCE yapılmalı.
+	isVmailbox := cmd.Flags().Changed("class") && strings.ToLower(dClass) == "vmailbox"
+	var resolvedUID, resolvedGID int64
+	if isVmailbox {
+		requestedUID := int64(0)
+		requestedGID := int64(0)
+		if cmd.Flags().Changed("uid") {
+			requestedUID = vUid
+		}
+		if cmd.Flags().Changed("gid") {
+			requestedGID = vGid
+		}
+		resolvedUID, resolvedGID, err = SetupDomainSysUser(args[0], requestedUID, requestedGID)
+		if err != nil {
+			return fmt.Errorf("sistem kullanıcısı oluşturulamadı: %w", err)
+		}
+	}
+
 	mdb.Begin()
 	defer mdb.End(&err)
 
@@ -226,11 +245,18 @@ func domainAdd(cmd *cobra.Command, args []string) error {
 	if err == nil && cmd.Flags().Changed("class") {
 		err = d.SetClass(dClass)
 	}
-	if err == nil && cmd.Flags().Changed("uid") {
-		err = d.SetVUid(vUid)
-	}
-	if err == nil && cmd.Flags().Changed("gid") {
-		err = d.SetVGid(vGid)
+	// vmailbox ise çözümlenen (gerçek) uid/gid'i DB'ye kaydet
+	if err == nil && isVmailbox {
+		if err = d.SetVUid(resolvedUID); err == nil {
+			err = d.SetVGid(resolvedGID)
+		}
+	} else {
+		if err == nil && cmd.Flags().Changed("uid") {
+			err = d.SetVUid(vUid)
+		}
+		if err == nil && cmd.Flags().Changed("gid") {
+			err = d.SetVGid(vGid)
+		}
 	}
 	if err == nil && cmd.Flags().Changed("rclass") {
 		err = d.SetRclass(rClass)

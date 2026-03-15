@@ -431,3 +431,36 @@ func (mdb *MailDB) Query(q string) ([]QueryRes, error) {
 	}
 	return results, nil
 }
+
+// QueryRow
+// Generic single-row query. Used by sysops for uid/gid conflict checks.
+func (mdb *MailDB) QueryRow(q string, args ...interface{}) *sql.Row {
+	return mdb.db.QueryRow(q, args...)
+}
+
+// IsUIDUsed - vmailbox tablosunda uid kullanılıyor mu kontrol eder
+func (mdb *MailDB) IsUIDUsed(uid int64) bool {
+	var count int
+	row := mdb.db.QueryRow("SELECT COUNT(*) FROM vmailbox WHERE uid = ?", uid)
+	if err := row.Scan(&count); err != nil {
+		return false
+	}
+	return count > 0
+}
+
+// IsGIDUsed - vmailbox ve domain tablolarında gid kullanılıyor mu kontrol eder
+func (mdb *MailDB) IsGIDUsed(gid int64) bool {
+	var count int
+	row := mdb.db.QueryRow("SELECT COUNT(*) FROM vmailbox WHERE gid = ?", gid)
+	if err := row.Scan(&count); err != nil {
+		return false
+	}
+	if count > 0 {
+		return true
+	}
+	row = mdb.db.QueryRow("SELECT COUNT(*) FROM domain WHERE vgid = ?", gid)
+	if err := row.Scan(&count); err != nil {
+		return false
+	}
+	return count > 0
+}

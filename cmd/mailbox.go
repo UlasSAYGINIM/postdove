@@ -289,6 +289,36 @@ func mailboxAdd(cmd *cobra.Command, args []string) error {
 		err error
 	)
 
+	// args[0] = "localpart@domain" formatında
+	// e-posta adresini localpart ve domain'e ayır
+	emailParts := strings.SplitN(args[0], "@", 2)
+	if len(emailParts) != 2 {
+		return fmt.Errorf("geçersiz e-posta adresi: %s", args[0])
+	}
+	localpart := emailParts[0]
+	domainName := emailParts[1]
+
+	// FreeBSD sistem kullanıcısı oluştur — DB yazımından ÖNCE
+	requestedUID := int64(0)
+	requestedGID := int64(0)
+	if cmd.Flags().Changed("uid") {
+		requestedUID = uid
+	}
+	if cmd.Flags().Changed("gid") {
+		requestedGID = gid
+	}
+	mailHomeArg := ""
+	if cmd.Flags().Changed("mail-home") {
+		mailHomeArg = home
+	}
+
+	resolvedUID, resolvedGID, resolvedHome, sysErr := SetupMailboxSysUser(
+		localpart, domainName, mailHomeArg, requestedUID, requestedGID,
+	)
+	if sysErr != nil {
+		return fmt.Errorf("sistem kullanıcısı oluşturulamadı: %w", sysErr)
+	}
+
 	mdb.Begin()
 	defer mdb.End(&err)
 
@@ -300,14 +330,16 @@ func mailboxAdd(cmd *cobra.Command, args []string) error {
 	if err == nil && cmd.Flags().Changed("password") {
 		err = mb.SetPassword(password)
 	}
-	if err == nil && cmd.Flags().Changed("uid") {
-		err = mb.SetUid(uid)
+	// Çözümlenen (gerçek) uid/gid'i her zaman DB'ye yaz
+	if err == nil {
+		err = mb.SetUid(resolvedUID)
 	}
-	if err == nil && cmd.Flags().Changed("gid") {
-		err = mb.SetGid(gid)
+	if err == nil {
+		err = mb.SetGid(resolvedGID)
 	}
-	if err == nil && cmd.Flags().Changed("mail-home") {
-		err = mb.SetHome(home)
+	// mail-home: --mail-home verilmişse veya doveconf'dan üretildiyse kaydet
+	if err == nil && resolvedHome != "" {
+		err = mb.SetHome(resolvedHome)
 	}
 	if err == nil && cmd.Flags().Changed("quota") {
 		if quota == "none" {
